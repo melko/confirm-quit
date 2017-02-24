@@ -17,10 +17,12 @@ set cpo&vim
 "##########################################################
 " Mappings
 if !(exists('g:confirm_quit_nomap') && g:confirm_quit_nomap)
+    "command Q  :call confirm_quit#confirm(0, 'last')
+    "command WQ :call confirm_quit#confirm(1, 'last')
     cnoremap <silent> q<CR>  :call confirm_quit#confirm(0, 'last')<CR>
     cnoremap <silent> wq<CR> :call confirm_quit#confirm(1, 'last')<CR>
-	cnoremap <silent> x<CR>  :call confirm_quit#confirm(1, 'last')<CR>
-	nnoremap <silent> ZZ     :call confirm_quit#confirm(1, 'last')<CR>
+    "cnoremap <silent> x<CR>  :call confirm_quit#confirm(1, 'last')<CR>
+    "nnoremap <silent> ZZ     :call confirm_quit#confirm(1, 'last')<CR>
 end
 
 
@@ -44,7 +46,7 @@ fun! confirm_quit#confirm(writefile, when)
 		return
 	endif
 
-	let l:confirmed = confirm('Do you really want to quit?', "&Yes\n&No", 2)
+	let l:confirmed = confirm('Do you really want to quit?', "&Yes\n&No", 1)
 	if l:confirmed == 1
 		quit
 	endif
@@ -96,14 +98,14 @@ endfun
 " Check if we're actually going to quit Vim, rather than just closing the
 " current window
 fun! s:going_to_quit()
-	let l:open_bufs = 0
-	for buf in range(bufnr('^'), bufnr('$'))
-		if bufloaded(l:buf)
-			let l:open_bufs += 1
-		endif
-	endfor
+	"let l:open_bufs = 0
+	"for buf in range(bufnr('^'), bufnr('$'))
+	"	if bufloaded(l:buf)
+	"		let l:open_bufs += 1
+	"	endif
+	"endfor
 
-	return l:open_bufs == 1
+	return winnr('$') == 1
 endfun
 
 
